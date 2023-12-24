@@ -9,7 +9,7 @@
 * Function : Able to declare and call an anonymous function
 * Named Function : Able to declare and call a named function
 ## Langauage
-'是由yacc和lex進行語法分析以及語意判別'
+"是由yacc和lex進行語法分析以及語意判別"
 'Base On C'
 '程式主要是由AST和array交互使用'
 
