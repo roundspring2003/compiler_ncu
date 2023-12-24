@@ -1,0 +1,1975 @@
+Grammar
+
+    0 $accept: program $end
+
+    1 program: program line
+    2        | line
+
+    3 line: stmt SPA
+    4     | SPA
+
+    5 stmt: exp
+    6     | prtstmt
+    7     | defstmt
+
+    8 exps: exp
+    9     | exps SPA exp
+
+   10 exp: NUM
+   11    | TRUE
+   12    | FALSE
+   13    | ID
+   14    | num_op
+   15    | log_op
+   16    | fun_call
+   17    | fun_exp
+   18    | if_exp
+
+   19 $@1: /* empty */
+
+   20 num_op: LEP PLU $@1 SPA exp SPA exps RIP
+   21       | LEP MIN SPA exp SPA exp RIP
+
+   22 $@2: /* empty */
+
+   23 num_op: LEP MUL $@2 SPA exp SPA exps RIP
+   24       | LEP DIV SPA exp SPA exp RIP
+   25       | LEP MOD SPA exp SPA exp RIP
+   26       | LEP GRE SPA exp SPA exp RIP
+   27       | LEP SMA SPA exp SPA exp RIP
+   28       | LEP EQU SPA exp SPA exp RIP
+
+   29 $@3: /* empty */
+
+   30 log_op: LEP $@3 AND SPA exp SPA exps RIP
+
+   31 $@4: /* empty */
+
+   32 log_op: LEP $@4 OR SPA exp SPA exps RIP
+   33       | LEP NOT SPA exp RIP
+
+   34 if_exp: LEP FI SPA exp SPA exp SPA exp RIP
+
+   35 fun_id: fun_id SPA fun_id
+   36       | ID
+   37       | /* empty */
+
+   38 fes: fe
+   39    | fe SPA fes
+
+   40 fe: NUM
+   41   | ID
+
+   42 $@5: /* empty */
+
+   43 $@6: /* empty */
+
+   44 fe: LEP $@5 PLU $@6 SPA fes RIP
+
+   45 $@7: /* empty */
+
+   46 $@8: /* empty */
+
+   47 fe: LEP $@7 MIN $@8 SPA fes RIP
+
+   48 $@9: /* empty */
+
+   49 $@10: /* empty */
+
+   50 fe: LEP $@9 MOD $@10 SPA fes RIP
+
+   51 $@11: /* empty */
+
+   52 $@12: /* empty */
+
+   53 fe: LEP $@11 MUL $@12 SPA fes RIP
+
+   54 $@13: /* empty */
+
+   55 $@14: /* empty */
+
+   56 fe: LEP $@13 DIV $@14 SPA fes RIP
+
+   57 expm: expm SPA exp
+   58     | exp
+   59     | /* empty */
+
+   60 $@15: /* empty */
+
+   61 fun_exp: LEP FNN $@15 SPA LEP fun_id RIP SPA fes RIP
+
+   62 fun_call: LEP fun_exp SPA expm RIP
+   63         | LEP ID expm RIP
+
+   64 prtstmt: LEP PRN SPA exp RIP
+   65        | LEP PRB SPA exp RIP
+
+   66 defstmt: LEP DE SPA ID SPA exp RIP
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+PLU (258) 20 44
+MIN (259) 21 47
+MUL (260) 23 53
+DIV (261) 24 56
+MOD (262) 25 50
+GRE (263) 26
+SMA (264) 27
+EQU (265) 28
+LEP (266) 20 21 23 24 25 26 27 28 30 32 33 34 44 47 50 53 56 61 62
+    63 64 65 66
+RIP (267) 20 21 23 24 25 26 27 28 30 32 33 34 44 47 50 53 56 61 62
+    63 64 65 66
+PRN (268) 64
+PRB (269) 65
+SPA (270) 3 4 9 20 21 23 24 25 26 27 28 30 32 33 34 35 39 44 47 50
+    53 56 57 61 62 64 65 66
+OR (271) 32
+AND (272) 30
+NOT (273) 33
+DE (274) 66
+FNN (275) 61
+FI (276) 34
+TRUE (277) 11
+FALSE (278) 12
+NUM (279) 10 40
+ID (280) 13 36 41 63 66
+
+
+Nonterminals, with rules where they appear
+
+$accept (26)
+    on left: 0
+program (27)
+    on left: 1 2, on right: 0 1
+line (28)
+    on left: 3 4, on right: 1 2
+stmt (29)
+    on left: 5 6 7, on right: 3
+exps (30)
+    on left: 8 9, on right: 9 20 23 30 32
+exp (31)
+    on left: 10 11 12 13 14 15 16 17 18, on right: 5 8 9 20 21 23 24
+    25 26 27 28 30 32 33 34 57 58 64 65 66
+num_op (32)
+    on left: 20 21 23 24 25 26 27 28, on right: 14
+$@1 (33)
+    on left: 19, on right: 20
+$@2 (34)
+    on left: 22, on right: 23
+log_op (35)
+    on left: 30 32 33, on right: 15
+$@3 (36)
+    on left: 29, on right: 30
+$@4 (37)
+    on left: 31, on right: 32
+if_exp (38)
+    on left: 34, on right: 18
+fun_id (39)
+    on left: 35 36 37, on right: 35 61
+fes (40)
+    on left: 38 39, on right: 39 44 47 50 53 56 61
+fe (41)
+    on left: 40 41 44 47 50 53 56, on right: 38 39
+$@5 (42)
+    on left: 42, on right: 44
+$@6 (43)
+    on left: 43, on right: 44
+$@7 (44)
+    on left: 45, on right: 47
+$@8 (45)
+    on left: 46, on right: 47
+$@9 (46)
+    on left: 48, on right: 50
+$@10 (47)
+    on left: 49, on right: 50
+$@11 (48)
+    on left: 51, on right: 53
+$@12 (49)
+    on left: 52, on right: 53
+$@13 (50)
+    on left: 54, on right: 56
+$@14 (51)
+    on left: 55, on right: 56
+expm (52)
+    on left: 57 58 59, on right: 57 62 63
+fun_exp (53)
+    on left: 61, on right: 17 62
+$@15 (54)
+    on left: 60, on right: 61
+fun_call (55)
+    on left: 62 63, on right: 16
+prtstmt (56)
+    on left: 64 65, on right: 6
+defstmt (57)
+    on left: 66, on right: 7
+
+
+state 0
+
+    0 $accept: . program $end
+
+    LEP    shift, and go to state 1
+    SPA    shift, and go to state 2
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    program   go to state 7
+    line      go to state 8
+    stmt      go to state 9
+    exp       go to state 10
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+    prtstmt   go to state 16
+    defstmt   go to state 17
+
+
+state 1
+
+   20 num_op: LEP . PLU $@1 SPA exp SPA exps RIP
+   21       | LEP . MIN SPA exp SPA exp RIP
+   23       | LEP . MUL $@2 SPA exp SPA exps RIP
+   24       | LEP . DIV SPA exp SPA exp RIP
+   25       | LEP . MOD SPA exp SPA exp RIP
+   26       | LEP . GRE SPA exp SPA exp RIP
+   27       | LEP . SMA SPA exp SPA exp RIP
+   28       | LEP . EQU SPA exp SPA exp RIP
+   30 log_op: LEP . $@3 AND SPA exp SPA exps RIP
+   32       | LEP . $@4 OR SPA exp SPA exps RIP
+   33       | LEP . NOT SPA exp RIP
+   34 if_exp: LEP . FI SPA exp SPA exp SPA exp RIP
+   61 fun_exp: LEP . FNN $@15 SPA LEP fun_id RIP SPA fes RIP
+   62 fun_call: LEP . fun_exp SPA expm RIP
+   63         | LEP . ID expm RIP
+   64 prtstmt: LEP . PRN SPA exp RIP
+   65        | LEP . PRB SPA exp RIP
+   66 defstmt: LEP . DE SPA ID SPA exp RIP
+
+    PLU  shift, and go to state 18
+    MIN  shift, and go to state 19
+    MUL  shift, and go to state 20
+    DIV  shift, and go to state 21
+    MOD  shift, and go to state 22
+    GRE  shift, and go to state 23
+    SMA  shift, and go to state 24
+    EQU  shift, and go to state 25
+    LEP  shift, and go to state 26
+    PRN  shift, and go to state 27
+    PRB  shift, and go to state 28
+    NOT  shift, and go to state 29
+    DE   shift, and go to state 30
+    FNN  shift, and go to state 31
+    FI   shift, and go to state 32
+    ID   shift, and go to state 33
+
+    OR        reduce using rule 31 ($@4)
+    $default  reduce using rule 29 ($@3)
+
+    $@3      go to state 34
+    $@4      go to state 35
+    fun_exp  go to state 36
+
+
+state 2
+
+    4 line: SPA .
+
+    $default  reduce using rule 4 (line)
+
+
+state 3
+
+   11 exp: TRUE .
+
+    $default  reduce using rule 11 (exp)
+
+
+state 4
+
+   12 exp: FALSE .
+
+    $default  reduce using rule 12 (exp)
+
+
+state 5
+
+   10 exp: NUM .
+
+    $default  reduce using rule 10 (exp)
+
+
+state 6
+
+   13 exp: ID .
+
+    $default  reduce using rule 13 (exp)
+
+
+state 7
+
+    0 $accept: program . $end
+    1 program: program . line
+
+    $end   shift, and go to state 37
+    LEP    shift, and go to state 1
+    SPA    shift, and go to state 2
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    line      go to state 38
+    stmt      go to state 9
+    exp       go to state 10
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+    prtstmt   go to state 16
+    defstmt   go to state 17
+
+
+state 8
+
+    2 program: line .
+
+    $default  reduce using rule 2 (program)
+
+
+state 9
+
+    3 line: stmt . SPA
+
+    SPA  shift, and go to state 39
+
+
+state 10
+
+    5 stmt: exp .
+
+    $default  reduce using rule 5 (stmt)
+
+
+state 11
+
+   14 exp: num_op .
+
+    $default  reduce using rule 14 (exp)
+
+
+state 12
+
+   15 exp: log_op .
+
+    $default  reduce using rule 15 (exp)
+
+
+state 13
+
+   18 exp: if_exp .
+
+    $default  reduce using rule 18 (exp)
+
+
+state 14
+
+   17 exp: fun_exp .
+
+    $default  reduce using rule 17 (exp)
+
+
+state 15
+
+   16 exp: fun_call .
+
+    $default  reduce using rule 16 (exp)
+
+
+state 16
+
+    6 stmt: prtstmt .
+
+    $default  reduce using rule 6 (stmt)
+
+
+state 17
+
+    7 stmt: defstmt .
+
+    $default  reduce using rule 7 (stmt)
+
+
+state 18
+
+   20 num_op: LEP PLU . $@1 SPA exp SPA exps RIP
+
+    $default  reduce using rule 19 ($@1)
+
+    $@1  go to state 40
+
+
+state 19
+
+   21 num_op: LEP MIN . SPA exp SPA exp RIP
+
+    SPA  shift, and go to state 41
+
+
+state 20
+
+   23 num_op: LEP MUL . $@2 SPA exp SPA exps RIP
+
+    $default  reduce using rule 22 ($@2)
+
+    $@2  go to state 42
+
+
+state 21
+
+   24 num_op: LEP DIV . SPA exp SPA exp RIP
+
+    SPA  shift, and go to state 43
+
+
+state 22
+
+   25 num_op: LEP MOD . SPA exp SPA exp RIP
+
+    SPA  shift, and go to state 44
+
+
+state 23
+
+   26 num_op: LEP GRE . SPA exp SPA exp RIP
+
+    SPA  shift, and go to state 45
+
+
+state 24
+
+   27 num_op: LEP SMA . SPA exp SPA exp RIP
+
+    SPA  shift, and go to state 46
+
+
+state 25
+
+   28 num_op: LEP EQU . SPA exp SPA exp RIP
+
+    SPA  shift, and go to state 47
+
+
+state 26
+
+   61 fun_exp: LEP . FNN $@15 SPA LEP fun_id RIP SPA fes RIP
+
+    FNN  shift, and go to state 31
+
+
+state 27
+
+   64 prtstmt: LEP PRN . SPA exp RIP
+
+    SPA  shift, and go to state 48
+
+
+state 28
+
+   65 prtstmt: LEP PRB . SPA exp RIP
+
+    SPA  shift, and go to state 49
+
+
+state 29
+
+   33 log_op: LEP NOT . SPA exp RIP
+
+    SPA  shift, and go to state 50
+
+
+state 30
+
+   66 defstmt: LEP DE . SPA ID SPA exp RIP
+
+    SPA  shift, and go to state 51
+
+
+state 31
+
+   61 fun_exp: LEP FNN . $@15 SPA LEP fun_id RIP SPA fes RIP
+
+    $default  reduce using rule 60 ($@15)
+
+    $@15  go to state 52
+
+
+state 32
+
+   34 if_exp: LEP FI . SPA exp SPA exp SPA exp RIP
+
+    SPA  shift, and go to state 53
+
+
+state 33
+
+   63 fun_call: LEP ID . expm RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    $default  reduce using rule 59 (expm)
+
+    exp       go to state 55
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    expm      go to state 56
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 34
+
+   30 log_op: LEP $@3 . AND SPA exp SPA exps RIP
+
+    AND  shift, and go to state 57
+
+
+state 35
+
+   32 log_op: LEP $@4 . OR SPA exp SPA exps RIP
+
+    OR  shift, and go to state 58
+
+
+state 36
+
+   62 fun_call: LEP fun_exp . SPA expm RIP
+
+    SPA  shift, and go to state 59
+
+
+state 37
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 38
+
+    1 program: program line .
+
+    $default  reduce using rule 1 (program)
+
+
+state 39
+
+    3 line: stmt SPA .
+
+    $default  reduce using rule 3 (line)
+
+
+state 40
+
+   20 num_op: LEP PLU $@1 . SPA exp SPA exps RIP
+
+    SPA  shift, and go to state 60
+
+
+state 41
+
+   21 num_op: LEP MIN SPA . exp SPA exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 61
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 42
+
+   23 num_op: LEP MUL $@2 . SPA exp SPA exps RIP
+
+    SPA  shift, and go to state 62
+
+
+state 43
+
+   24 num_op: LEP DIV SPA . exp SPA exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 63
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 44
+
+   25 num_op: LEP MOD SPA . exp SPA exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 64
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 45
+
+   26 num_op: LEP GRE SPA . exp SPA exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 65
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 46
+
+   27 num_op: LEP SMA SPA . exp SPA exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 66
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 47
+
+   28 num_op: LEP EQU SPA . exp SPA exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 67
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 48
+
+   64 prtstmt: LEP PRN SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 68
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 49
+
+   65 prtstmt: LEP PRB SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 69
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 50
+
+   33 log_op: LEP NOT SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 70
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 51
+
+   66 defstmt: LEP DE SPA . ID SPA exp RIP
+
+    ID  shift, and go to state 71
+
+
+state 52
+
+   61 fun_exp: LEP FNN $@15 . SPA LEP fun_id RIP SPA fes RIP
+
+    SPA  shift, and go to state 72
+
+
+state 53
+
+   34 if_exp: LEP FI SPA . exp SPA exp SPA exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 73
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 54
+
+   20 num_op: LEP . PLU $@1 SPA exp SPA exps RIP
+   21       | LEP . MIN SPA exp SPA exp RIP
+   23       | LEP . MUL $@2 SPA exp SPA exps RIP
+   24       | LEP . DIV SPA exp SPA exp RIP
+   25       | LEP . MOD SPA exp SPA exp RIP
+   26       | LEP . GRE SPA exp SPA exp RIP
+   27       | LEP . SMA SPA exp SPA exp RIP
+   28       | LEP . EQU SPA exp SPA exp RIP
+   30 log_op: LEP . $@3 AND SPA exp SPA exps RIP
+   32       | LEP . $@4 OR SPA exp SPA exps RIP
+   33       | LEP . NOT SPA exp RIP
+   34 if_exp: LEP . FI SPA exp SPA exp SPA exp RIP
+   61 fun_exp: LEP . FNN $@15 SPA LEP fun_id RIP SPA fes RIP
+   62 fun_call: LEP . fun_exp SPA expm RIP
+   63         | LEP . ID expm RIP
+
+    PLU  shift, and go to state 18
+    MIN  shift, and go to state 19
+    MUL  shift, and go to state 20
+    DIV  shift, and go to state 21
+    MOD  shift, and go to state 22
+    GRE  shift, and go to state 23
+    SMA  shift, and go to state 24
+    EQU  shift, and go to state 25
+    LEP  shift, and go to state 26
+    NOT  shift, and go to state 29
+    FNN  shift, and go to state 31
+    FI   shift, and go to state 32
+    ID   shift, and go to state 33
+
+    OR        reduce using rule 31 ($@4)
+    $default  reduce using rule 29 ($@3)
+
+    $@3      go to state 34
+    $@4      go to state 35
+    fun_exp  go to state 36
+
+
+state 55
+
+   58 expm: exp .
+
+    $default  reduce using rule 58 (expm)
+
+
+state 56
+
+   57 expm: expm . SPA exp
+   63 fun_call: LEP ID expm . RIP
+
+    RIP  shift, and go to state 74
+    SPA  shift, and go to state 75
+
+
+state 57
+
+   30 log_op: LEP $@3 AND . SPA exp SPA exps RIP
+
+    SPA  shift, and go to state 76
+
+
+state 58
+
+   32 log_op: LEP $@4 OR . SPA exp SPA exps RIP
+
+    SPA  shift, and go to state 77
+
+
+state 59
+
+   62 fun_call: LEP fun_exp SPA . expm RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    $default  reduce using rule 59 (expm)
+
+    exp       go to state 55
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    expm      go to state 78
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 60
+
+   20 num_op: LEP PLU $@1 SPA . exp SPA exps RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 79
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 61
+
+   21 num_op: LEP MIN SPA exp . SPA exp RIP
+
+    SPA  shift, and go to state 80
+
+
+state 62
+
+   23 num_op: LEP MUL $@2 SPA . exp SPA exps RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 81
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 63
+
+   24 num_op: LEP DIV SPA exp . SPA exp RIP
+
+    SPA  shift, and go to state 82
+
+
+state 64
+
+   25 num_op: LEP MOD SPA exp . SPA exp RIP
+
+    SPA  shift, and go to state 83
+
+
+state 65
+
+   26 num_op: LEP GRE SPA exp . SPA exp RIP
+
+    SPA  shift, and go to state 84
+
+
+state 66
+
+   27 num_op: LEP SMA SPA exp . SPA exp RIP
+
+    SPA  shift, and go to state 85
+
+
+state 67
+
+   28 num_op: LEP EQU SPA exp . SPA exp RIP
+
+    SPA  shift, and go to state 86
+
+
+state 68
+
+   64 prtstmt: LEP PRN SPA exp . RIP
+
+    RIP  shift, and go to state 87
+
+
+state 69
+
+   65 prtstmt: LEP PRB SPA exp . RIP
+
+    RIP  shift, and go to state 88
+
+
+state 70
+
+   33 log_op: LEP NOT SPA exp . RIP
+
+    RIP  shift, and go to state 89
+
+
+state 71
+
+   66 defstmt: LEP DE SPA ID . SPA exp RIP
+
+    SPA  shift, and go to state 90
+
+
+state 72
+
+   61 fun_exp: LEP FNN $@15 SPA . LEP fun_id RIP SPA fes RIP
+
+    LEP  shift, and go to state 91
+
+
+state 73
+
+   34 if_exp: LEP FI SPA exp . SPA exp SPA exp RIP
+
+    SPA  shift, and go to state 92
+
+
+state 74
+
+   63 fun_call: LEP ID expm RIP .
+
+    $default  reduce using rule 63 (fun_call)
+
+
+state 75
+
+   57 expm: expm SPA . exp
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 93
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 76
+
+   30 log_op: LEP $@3 AND SPA . exp SPA exps RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 94
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 77
+
+   32 log_op: LEP $@4 OR SPA . exp SPA exps RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 95
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 78
+
+   57 expm: expm . SPA exp
+   62 fun_call: LEP fun_exp SPA expm . RIP
+
+    RIP  shift, and go to state 96
+    SPA  shift, and go to state 75
+
+
+state 79
+
+   20 num_op: LEP PLU $@1 SPA exp . SPA exps RIP
+
+    SPA  shift, and go to state 97
+
+
+state 80
+
+   21 num_op: LEP MIN SPA exp SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 98
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 81
+
+   23 num_op: LEP MUL $@2 SPA exp . SPA exps RIP
+
+    SPA  shift, and go to state 99
+
+
+state 82
+
+   24 num_op: LEP DIV SPA exp SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 100
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 83
+
+   25 num_op: LEP MOD SPA exp SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 101
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 84
+
+   26 num_op: LEP GRE SPA exp SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 102
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 85
+
+   27 num_op: LEP SMA SPA exp SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 103
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 86
+
+   28 num_op: LEP EQU SPA exp SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 104
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 87
+
+   64 prtstmt: LEP PRN SPA exp RIP .
+
+    $default  reduce using rule 64 (prtstmt)
+
+
+state 88
+
+   65 prtstmt: LEP PRB SPA exp RIP .
+
+    $default  reduce using rule 65 (prtstmt)
+
+
+state 89
+
+   33 log_op: LEP NOT SPA exp RIP .
+
+    $default  reduce using rule 33 (log_op)
+
+
+state 90
+
+   66 defstmt: LEP DE SPA ID SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 105
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 91
+
+   61 fun_exp: LEP FNN $@15 SPA LEP . fun_id RIP SPA fes RIP
+
+    ID  shift, and go to state 106
+
+    $default  reduce using rule 37 (fun_id)
+
+    fun_id  go to state 107
+
+
+state 92
+
+   34 if_exp: LEP FI SPA exp SPA . exp SPA exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 108
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 93
+
+   57 expm: expm SPA exp .
+
+    $default  reduce using rule 57 (expm)
+
+
+state 94
+
+   30 log_op: LEP $@3 AND SPA exp . SPA exps RIP
+
+    SPA  shift, and go to state 109
+
+
+state 95
+
+   32 log_op: LEP $@4 OR SPA exp . SPA exps RIP
+
+    SPA  shift, and go to state 110
+
+
+state 96
+
+   62 fun_call: LEP fun_exp SPA expm RIP .
+
+    $default  reduce using rule 62 (fun_call)
+
+
+state 97
+
+   20 num_op: LEP PLU $@1 SPA exp SPA . exps RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exps      go to state 111
+    exp       go to state 112
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 98
+
+   21 num_op: LEP MIN SPA exp SPA exp . RIP
+
+    RIP  shift, and go to state 113
+
+
+state 99
+
+   23 num_op: LEP MUL $@2 SPA exp SPA . exps RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exps      go to state 114
+    exp       go to state 112
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 100
+
+   24 num_op: LEP DIV SPA exp SPA exp . RIP
+
+    RIP  shift, and go to state 115
+
+
+state 101
+
+   25 num_op: LEP MOD SPA exp SPA exp . RIP
+
+    RIP  shift, and go to state 116
+
+
+state 102
+
+   26 num_op: LEP GRE SPA exp SPA exp . RIP
+
+    RIP  shift, and go to state 117
+
+
+state 103
+
+   27 num_op: LEP SMA SPA exp SPA exp . RIP
+
+    RIP  shift, and go to state 118
+
+
+state 104
+
+   28 num_op: LEP EQU SPA exp SPA exp . RIP
+
+    RIP  shift, and go to state 119
+
+
+state 105
+
+   66 defstmt: LEP DE SPA ID SPA exp . RIP
+
+    RIP  shift, and go to state 120
+
+
+state 106
+
+   36 fun_id: ID .
+
+    $default  reduce using rule 36 (fun_id)
+
+
+state 107
+
+   35 fun_id: fun_id . SPA fun_id
+   61 fun_exp: LEP FNN $@15 SPA LEP fun_id . RIP SPA fes RIP
+
+    RIP  shift, and go to state 121
+    SPA  shift, and go to state 122
+
+
+state 108
+
+   34 if_exp: LEP FI SPA exp SPA exp . SPA exp RIP
+
+    SPA  shift, and go to state 123
+
+
+state 109
+
+   30 log_op: LEP $@3 AND SPA exp SPA . exps RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exps      go to state 124
+    exp       go to state 112
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 110
+
+   32 log_op: LEP $@4 OR SPA exp SPA . exps RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exps      go to state 125
+    exp       go to state 112
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 111
+
+    9 exps: exps . SPA exp
+   20 num_op: LEP PLU $@1 SPA exp SPA exps . RIP
+
+    RIP  shift, and go to state 126
+    SPA  shift, and go to state 127
+
+
+state 112
+
+    8 exps: exp .
+
+    $default  reduce using rule 8 (exps)
+
+
+state 113
+
+   21 num_op: LEP MIN SPA exp SPA exp RIP .
+
+    $default  reduce using rule 21 (num_op)
+
+
+state 114
+
+    9 exps: exps . SPA exp
+   23 num_op: LEP MUL $@2 SPA exp SPA exps . RIP
+
+    RIP  shift, and go to state 128
+    SPA  shift, and go to state 127
+
+
+state 115
+
+   24 num_op: LEP DIV SPA exp SPA exp RIP .
+
+    $default  reduce using rule 24 (num_op)
+
+
+state 116
+
+   25 num_op: LEP MOD SPA exp SPA exp RIP .
+
+    $default  reduce using rule 25 (num_op)
+
+
+state 117
+
+   26 num_op: LEP GRE SPA exp SPA exp RIP .
+
+    $default  reduce using rule 26 (num_op)
+
+
+state 118
+
+   27 num_op: LEP SMA SPA exp SPA exp RIP .
+
+    $default  reduce using rule 27 (num_op)
+
+
+state 119
+
+   28 num_op: LEP EQU SPA exp SPA exp RIP .
+
+    $default  reduce using rule 28 (num_op)
+
+
+state 120
+
+   66 defstmt: LEP DE SPA ID SPA exp RIP .
+
+    $default  reduce using rule 66 (defstmt)
+
+
+state 121
+
+   61 fun_exp: LEP FNN $@15 SPA LEP fun_id RIP . SPA fes RIP
+
+    SPA  shift, and go to state 129
+
+
+state 122
+
+   35 fun_id: fun_id SPA . fun_id
+
+    ID  shift, and go to state 106
+
+    $default  reduce using rule 37 (fun_id)
+
+    fun_id  go to state 130
+
+
+state 123
+
+   34 if_exp: LEP FI SPA exp SPA exp SPA . exp RIP
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 131
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 124
+
+    9 exps: exps . SPA exp
+   30 log_op: LEP $@3 AND SPA exp SPA exps . RIP
+
+    RIP  shift, and go to state 132
+    SPA  shift, and go to state 127
+
+
+state 125
+
+    9 exps: exps . SPA exp
+   32 log_op: LEP $@4 OR SPA exp SPA exps . RIP
+
+    RIP  shift, and go to state 133
+    SPA  shift, and go to state 127
+
+
+state 126
+
+   20 num_op: LEP PLU $@1 SPA exp SPA exps RIP .
+
+    $default  reduce using rule 20 (num_op)
+
+
+state 127
+
+    9 exps: exps SPA . exp
+
+    LEP    shift, and go to state 54
+    TRUE   shift, and go to state 3
+    FALSE  shift, and go to state 4
+    NUM    shift, and go to state 5
+    ID     shift, and go to state 6
+
+    exp       go to state 134
+    num_op    go to state 11
+    log_op    go to state 12
+    if_exp    go to state 13
+    fun_exp   go to state 14
+    fun_call  go to state 15
+
+
+state 128
+
+   23 num_op: LEP MUL $@2 SPA exp SPA exps RIP .
+
+    $default  reduce using rule 23 (num_op)
+
+
+state 129
+
+   61 fun_exp: LEP FNN $@15 SPA LEP fun_id RIP SPA . fes RIP
+
+    LEP  shift, and go to state 135
+    NUM  shift, and go to state 136
+    ID   shift, and go to state 137
+
+    fes  go to state 138
+    fe   go to state 139
+
+
+state 130
+
+   35 fun_id: fun_id . SPA fun_id
+   35       | fun_id SPA fun_id .
+
+    $default  reduce using rule 35 (fun_id)
+
+
+state 131
+
+   34 if_exp: LEP FI SPA exp SPA exp SPA exp . RIP
+
+    RIP  shift, and go to state 140
+
+
+state 132
+
+   30 log_op: LEP $@3 AND SPA exp SPA exps RIP .
+
+    $default  reduce using rule 30 (log_op)
+
+
+state 133
+
+   32 log_op: LEP $@4 OR SPA exp SPA exps RIP .
+
+    $default  reduce using rule 32 (log_op)
+
+
+state 134
+
+    9 exps: exps SPA exp .
+
+    $default  reduce using rule 9 (exps)
+
+
+state 135
+
+   44 fe: LEP . $@5 PLU $@6 SPA fes RIP
+   47   | LEP . $@7 MIN $@8 SPA fes RIP
+   50   | LEP . $@9 MOD $@10 SPA fes RIP
+   53   | LEP . $@11 MUL $@12 SPA fes RIP
+   56   | LEP . $@13 DIV $@14 SPA fes RIP
+
+    MIN       reduce using rule 45 ($@7)
+    MUL       reduce using rule 51 ($@11)
+    DIV       reduce using rule 54 ($@13)
+    MOD       reduce using rule 48 ($@9)
+    $default  reduce using rule 42 ($@5)
+
+    $@5   go to state 141
+    $@7   go to state 142
+    $@9   go to state 143
+    $@11  go to state 144
+    $@13  go to state 145
+
+
+state 136
+
+   40 fe: NUM .
+
+    $default  reduce using rule 40 (fe)
+
+
+state 137
+
+   41 fe: ID .
+
+    $default  reduce using rule 41 (fe)
+
+
+state 138
+
+   61 fun_exp: LEP FNN $@15 SPA LEP fun_id RIP SPA fes . RIP
+
+    RIP  shift, and go to state 146
+
+
+state 139
+
+   38 fes: fe .
+   39    | fe . SPA fes
+
+    SPA  shift, and go to state 147
+
+    $default  reduce using rule 38 (fes)
+
+
+state 140
+
+   34 if_exp: LEP FI SPA exp SPA exp SPA exp RIP .
+
+    $default  reduce using rule 34 (if_exp)
+
+
+state 141
+
+   44 fe: LEP $@5 . PLU $@6 SPA fes RIP
+
+    PLU  shift, and go to state 148
+
+
+state 142
+
+   47 fe: LEP $@7 . MIN $@8 SPA fes RIP
+
+    MIN  shift, and go to state 149
+
+
+state 143
+
+   50 fe: LEP $@9 . MOD $@10 SPA fes RIP
+
+    MOD  shift, and go to state 150
+
+
+state 144
+
+   53 fe: LEP $@11 . MUL $@12 SPA fes RIP
+
+    MUL  shift, and go to state 151
+
+
+state 145
+
+   56 fe: LEP $@13 . DIV $@14 SPA fes RIP
+
+    DIV  shift, and go to state 152
+
+
+state 146
+
+   61 fun_exp: LEP FNN $@15 SPA LEP fun_id RIP SPA fes RIP .
+
+    $default  reduce using rule 61 (fun_exp)
+
+
+state 147
+
+   39 fes: fe SPA . fes
+
+    LEP  shift, and go to state 135
+    NUM  shift, and go to state 136
+    ID   shift, and go to state 137
+
+    fes  go to state 153
+    fe   go to state 139
+
+
+state 148
+
+   44 fe: LEP $@5 PLU . $@6 SPA fes RIP
+
+    $default  reduce using rule 43 ($@6)
+
+    $@6  go to state 154
+
+
+state 149
+
+   47 fe: LEP $@7 MIN . $@8 SPA fes RIP
+
+    $default  reduce using rule 46 ($@8)
+
+    $@8  go to state 155
+
+
+state 150
+
+   50 fe: LEP $@9 MOD . $@10 SPA fes RIP
+
+    $default  reduce using rule 49 ($@10)
+
+    $@10  go to state 156
+
+
+state 151
+
+   53 fe: LEP $@11 MUL . $@12 SPA fes RIP
+
+    $default  reduce using rule 52 ($@12)
+
+    $@12  go to state 157
+
+
+state 152
+
+   56 fe: LEP $@13 DIV . $@14 SPA fes RIP
+
+    $default  reduce using rule 55 ($@14)
+
+    $@14  go to state 158
+
+
+state 153
+
+   39 fes: fe SPA fes .
+
+    $default  reduce using rule 39 (fes)
+
+
+state 154
+
+   44 fe: LEP $@5 PLU $@6 . SPA fes RIP
+
+    SPA  shift, and go to state 159
+
+
+state 155
+
+   47 fe: LEP $@7 MIN $@8 . SPA fes RIP
+
+    SPA  shift, and go to state 160
+
+
+state 156
+
+   50 fe: LEP $@9 MOD $@10 . SPA fes RIP
+
+    SPA  shift, and go to state 161
+
+
+state 157
+
+   53 fe: LEP $@11 MUL $@12 . SPA fes RIP
+
+    SPA  shift, and go to state 162
+
+
+state 158
+
+   56 fe: LEP $@13 DIV $@14 . SPA fes RIP
+
+    SPA  shift, and go to state 163
+
+
+state 159
+
+   44 fe: LEP $@5 PLU $@6 SPA . fes RIP
+
+    LEP  shift, and go to state 135
+    NUM  shift, and go to state 136
+    ID   shift, and go to state 137
+
+    fes  go to state 164
+    fe   go to state 139
+
+
+state 160
+
+   47 fe: LEP $@7 MIN $@8 SPA . fes RIP
+
+    LEP  shift, and go to state 135
+    NUM  shift, and go to state 136
+    ID   shift, and go to state 137
+
+    fes  go to state 165
+    fe   go to state 139
+
+
+state 161
+
+   50 fe: LEP $@9 MOD $@10 SPA . fes RIP
+
+    LEP  shift, and go to state 135
+    NUM  shift, and go to state 136
+    ID   shift, and go to state 137
+
+    fes  go to state 166
+    fe   go to state 139
+
+
+state 162
+
+   53 fe: LEP $@11 MUL $@12 SPA . fes RIP
+
+    LEP  shift, and go to state 135
+    NUM  shift, and go to state 136
+    ID   shift, and go to state 137
+
+    fes  go to state 167
+    fe   go to state 139
+
+
+state 163
+
+   56 fe: LEP $@13 DIV $@14 SPA . fes RIP
+
+    LEP  shift, and go to state 135
+    NUM  shift, and go to state 136
+    ID   shift, and go to state 137
+
+    fes  go to state 168
+    fe   go to state 139
+
+
+state 164
+
+   44 fe: LEP $@5 PLU $@6 SPA fes . RIP
+
+    RIP  shift, and go to state 169
+
+
+state 165
+
+   47 fe: LEP $@7 MIN $@8 SPA fes . RIP
+
+    RIP  shift, and go to state 170
+
+
+state 166
+
+   50 fe: LEP $@9 MOD $@10 SPA fes . RIP
+
+    RIP  shift, and go to state 171
+
+
+state 167
+
+   53 fe: LEP $@11 MUL $@12 SPA fes . RIP
+
+    RIP  shift, and go to state 172
+
+
+state 168
+
+   56 fe: LEP $@13 DIV $@14 SPA fes . RIP
+
+    RIP  shift, and go to state 173
+
+
+state 169
+
+   44 fe: LEP $@5 PLU $@6 SPA fes RIP .
+
+    $default  reduce using rule 44 (fe)
+
+
+state 170
+
+   47 fe: LEP $@7 MIN $@8 SPA fes RIP .
+
+    $default  reduce using rule 47 (fe)
+
+
+state 171
+
+   50 fe: LEP $@9 MOD $@10 SPA fes RIP .
+
+    $default  reduce using rule 50 (fe)
+
+
+state 172
+
+   53 fe: LEP $@11 MUL $@12 SPA fes RIP .
+
+    $default  reduce using rule 53 (fe)
+
+
+state 173
+
+   56 fe: LEP $@13 DIV $@14 SPA fes RIP .
+
+    $default  reduce using rule 56 (fe)
